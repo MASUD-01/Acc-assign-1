@@ -1,4 +1,3 @@
-
 const express = require('express')
 const app = express()
 const port = 5000
@@ -31,6 +30,16 @@ app.post('/user/save', (req, res) => {
     const user = req.body
     random.push(user)
     res.send(user)
+})
+
+
+app.patch("/user/:id", (req, res) => {
+    const { id } = req.params;
+    const newDatas = random.find(data => data.id == id);
+    newDatas.id = id;
+    newDatas.name = req.body.name;
+    newDatas.contact = req.body.contact;
+    res.send(newDatas)
 })
 
 app.get('/', (req, res) => {
