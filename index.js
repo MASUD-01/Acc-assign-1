@@ -12,8 +12,9 @@ app.use(express.json());
 
 
 app.get('/user/all', (req, res) => {
-
-    res.send(random)
+    const { limit } = req.query;
+    console.log(limit)
+    res.send(random.slice(0, limit))
 })
 app.get('/user/random', (req, res) => {
 
