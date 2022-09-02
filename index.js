@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const port = 5000
-const random = require('./randomUser')
+let random = require('./randomUser')
 const cors = require('cors')
 
 
@@ -40,6 +40,12 @@ app.patch("/user/:id", (req, res) => {
     newDatas.name = req.body.name;
     newDatas.contact = req.body.contact;
     res.send(newDatas)
+})
+
+app.delete('/user/:id', (req, res) => {
+    const { id } = req.params;
+    random = random.filter(user => user.id !== Number(id))
+    res.send(random)
 })
 
 app.get('/', (req, res) => {

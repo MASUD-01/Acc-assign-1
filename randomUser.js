@@ -1,4 +1,4 @@
-const random = [
+let random = [
     {
         "id": 1,
         "gender": "Male",
