@@ -23,10 +23,22 @@ router.post('/save', (req, res) => {
     res.send(random)
 })
 
-router.put('/user/bulk-update', (req, res) => {
-    const { id } = req.params;
-    const newDatas = random.find(data => data.id == id);
-})
+
+//bulk update
+router.patch('/bulk-update', function (req, res, next) {
+    async.each(req.body, function (obj, cb) {
+        random.findById(obj.employeeId, function (err, employee) {
+            if (err) {
+                return cb(err);
+            }
+            employee = new random({ name: obj.name });
+            employee.save(cb);
+        });
+    }, function (err) {
+
+    });
+});
+
 
 router.route("/:id").patch((req, res) => {
     const { id } = req.params;
