@@ -2,7 +2,12 @@ const mongoose = require('mongoose')
 const { ObjectId } = mongoose.Schema.Types
 
 //schema design
-const productSchema = mongoose.Schema({
+const stockSchema = mongoose.Schema({
+    productId: {
+        type: ObjectId,
+        required: true,
+        ref: 'Product'
+    },
     name: {
         type: String,
         required: [true, 'please provide a name for this product'],
@@ -42,6 +47,16 @@ const productSchema = mongoose.Schema({
             }
         }
     }],
+    price: {
+        type: Number,
+        required: true,
+        min: [0, "product price cant be negative"]
+    },
+    quantity: {
+        type: Number,
+        required: true,
+        min: [0, "product quantity cant be negative"]
+    },
     catagory: {
         type: String,
         required: true,
@@ -67,47 +82,43 @@ const productSchema = mongoose.Schema({
             required: true
         },
         _id: mongoose.Schema.Types.ObjectId
-    }]
-    // price: {
-    //     type: Number,
-    //     required: true,
-    //     min: [0, 'price cant be negative']
-    // },
-    // quantity: {
-    //     type: Number,
-    //     required: true,
-    //     min: [0, 'quantity cant be negative'],
-    //     validate: {
-    //         validator: (value) => {
-    //             const isInteger = Number.isInteger(value)
-    //             if (isInteger) {
-    //                 return true
-    //             } else {
-    //                 return false
-    //             }
-    //         }
-    //     },
-    //     message: 'quantity must be an integer'
-
-    // },
-    // statas: {
-    //     type: String,
-    //     required: true,
-    //     enum: {
-    //         values: ['in-stock', 'out-stock', 'discontinue'],
-    //         message: 'statas can not be {VALUE}'
-    //     }
-    // },
-    // createAt:{
-    //     type:Date,
-    //     default:Date.now,
-
-    // },
-    // updateAt:{
-    //     type:Date,
-    //     default:Date.now
-    // }
-
+    }],
+    status: {
+        type: ObjectId,
+        required: true,
+        enum: {
+            values: ["in-stock", "out-of-stock", "discontinued"],
+            message: "status cant be {VALUE}"
+        },
+    },
+    store: {
+        name: {
+            type: String,
+            trim: true,
+            required: [true, "please provide a store name"],
+            lowercase: true,
+            enum: {
+                values: ["dhaka", "chattaogram", "rajshahi", "sylhet", "khulna", "barishal", "rangpur", "mymensing"],
+                message: "{VALUE} is not a valid name"
+            }
+        },
+        id: {
+            type: ObjectId,
+            required: true,
+            ref: 'Store'
+        }
+    },
+    suppliedBy: {
+        name: {
+            type: String,
+            trim: true,
+            required: [true, "please provide a supplier name"],
+        },
+        id: {
+            type: ObjectId,
+            ref: 'Supplier'
+        }
+    }
 }, {
     timestamps: true,
 })
@@ -123,23 +134,10 @@ productSchema.pre('save', function (next) {
     }
     next()
 })
-// productSchema.post('save', function (doc, next) {
-//     console.log('before saving data');
-//     next()
-// })
-
-//instance method--schema te kisu function dhukai dibo,jate pore bebohar korte pari
-
-// productSchema.methods.logger = function () {
-//     console.log(`data saved for ${this.name}`);
-// }
-
-
-
 
 //schema-> Model-> query
 
 //Model
-const Product = mongoose.model('Product', productSchema)
+const Stock = mongoose.model('Stock', stockSchema)
 
-module.exports = Product;
+module.exports = Stock;

@@ -4,11 +4,14 @@ const mongoose = require('mongoose');
 const port = process.env.PORT || 5000
 require('dotenv').config()
 const cors = require('cors')
-const userRouter = require('./routes/V1/user.route.js')
 const dbConnect = require('./utils/dbConnect')
-const toolsRouter = require('./routes/V1/tools.route.js')
 const viewCount = require('./middleware/viewCount.js');
+
+//routes
+const userRouter = require('./routes/V1/user.route.js');
+const toolsRouter = require('./routes/V1/tools.route.js');
 const productRouter = require('./routes/V1/product.route.js');
+const brandRouter = require("./routes/V1/brand.route.js")
 
 
 //middelware
@@ -26,6 +29,7 @@ dbConnect()
 app.use('/api/v1/user', userRouter)
 app.use('/api/v1/tools', toolsRouter)
 app.use('/api/v1/products', productRouter)
+app.use('/api/v1/brand', brandRouter)
 
 
 
