@@ -1,4 +1,4 @@
-let random = [
+let randomUser = [
     {
         "id": 1,
         "gender": "Male",
@@ -25,5 +25,5 @@ let random = [
     }
 
 ]
-
-module.exports = random;
+console.log('hELLO')
+module.exports = randomUser;

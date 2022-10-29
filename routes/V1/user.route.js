@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router()
-let random = require('../randomUser')
+// let random = require('/utils/randomUser')
+// let randomUse
+// let random = []
+// console.log(random)
 
 router.get('/all', (req, res) => {
     const { limit } = req.query;
